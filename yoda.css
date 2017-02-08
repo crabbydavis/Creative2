@@ -1,9 +1,24 @@
 h1{
 	text-align: center;
+	background-color: deepskyblue;
+	padding: 20px;
+	font-family: georgia;
+}
+
+body{
+	background-color: blanchedalmond;
 }
 
 #yoda_picture{
-	width:50%;
+	width:30%;
 	float:left;
 	margin:20px;
+}
+
+#question_text{
+	margin-top: 260px;
+}
+
+#next_question{
+	margin-top: 20px;
 }

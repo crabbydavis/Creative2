@@ -9,8 +9,20 @@
 <body>
 	<h1 id="title">Yoda's Words of Wisdom</h1>
 	<img id="yoda_picture" src="yoda.jpg">
+	<form>Number of questions:<select id="amount" name="amount">
+		<option value=5>5</option>
+		<option value=10>10</option>
+		<option value=15>15</option>
+		<option value=20>20</option>
+		</select>
+	Level of Difficulty: <select id="difficulty" name="difficulty">
+		<option value=easy>Easy</option>
+		<option value=medium>Medium</option>
+		<option value=hard>Hard</option>
+	</select>
 	<input id="trivia_button" type="submit" value="Get Trivia">
-	<div id="question_text"></div>
+	</form>
+	<div id="question_text">Your Trivia</div>
 	<input id="next_question" type="submit" value="Next">
 	<script>
 		console.log("At the beginning of the script");
@@ -18,7 +30,7 @@
 			var questions = [];
 			$("#trivia_button").click(function(e){
 				e.preventDefault();
-				var url = "https://opentdb.com/api.php?amount=10&category=9&difficulty=hard";
+				var url = "https://www.opentdb.com/api.php?amount=" + $("#amount").val() + "&category=9&difficulty=" + $("#difficulty").val() + "&type=boolean";
 				console.log(url);
 				$.getJSON(url, function(data) {
 					 $.each(data.results, function(i,item){
