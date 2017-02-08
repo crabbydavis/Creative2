@@ -2,11 +2,40 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<title>Creative2</title>
-	<link rel="stylesheet" type="text/css" heref="yoda.css">
+	<link rel="stylesheet" type="text/css" href="yoda.css">
 </head>
 <body>
 	<h1 id="title">Yoda's Words of Wisdom</h1>
 	<img id="yoda_picture" src="yoda.jpg">
+	<input id="trivia_button" type="submit" value="Get Trivia">
+	<div id="question_text"></div>
+	<input id="next_question" type="submit" value="Next">
+	<script>
+		console.log("At the beginning of the script");
+		$(document).ready(function(){
+			var questions = [];
+			$("#trivia_button").click(function(e){
+				e.preventDefault();
+				var url = "https://opentdb.com/api.php?amount=10&category=9&difficulty=hard";
+				console.log(url);
+				$.getJSON(url, function(data) {
+					 $.each(data.results, function(i,item){
+					 	var question = item.question;
+					 	console.log(question);
+					 	questions.push(question);
+					 	console.log(data.results);	
+					 });
+				});
+			});
+			var counter = 0;
+			$("#next_question").click(function(e){
+				e.preventDefault();
+				$("#question_text").text(questions[counter]);
+				counter++;
+			});
+		});
+	</script>
 </body>
 </html>
