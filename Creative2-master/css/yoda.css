@@ -1,0 +1,61 @@
+h1{
+	text-align: center;
+	background-color: deepskyblue;
+	padding: 20px;
+	font-family: georgia;
+}
+
+body{
+	background-color: white;
+}
+
+#yoda_picture{
+	width:62%;
+	float:right;
+	margin:20px;
+	margin-top: 6%;
+	margin-right: 8%;
+}
+
+#question_text{
+	margin-top: 260px;
+}
+
+#next_question{
+	margin-top: 20px;
+}
+/*#true_button {
+
+
+}
+#false_button {
+
+}	*/
+
+.trivia-button {
+	background-color: #517f3a;
+	color: #FFF;
+	padding:2% !important;
+	margin-top: 4%;
+}
+
+.answer-button {
+	margin: 10px;
+}
+
+.title {
+	background-color: #7ec256;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: white;
+    /*margin: 17% 5% 25% 25%;*/
+}
+
+.dropdown-button {
+	margin-left: 16%;
+    padding: 5% 13% 5% 13% !important;
+}
+
+.button-div {
+	padding: 10%;
+}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<title>Creative2</title>
+	<link rel="stylesheet" type="text/css" href="css/yoda.css">
+<!-- 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"> -->
+	<script src = "lib/bootstrap/js/bootstrap.min.js"></script>
+	<link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+</head>
+<body>
+	
+
+	<div class = "col-lg-6"> 
+		<h1 class="title">Trivia, I Speak</h1>
+
+<!-- <script src="content/js/jquery.min.js"></script>
+<script src="content/js/bootstrap.min.js"></script> -->
+
+			<div class="question col-lg-6">
+			  <button class="btn btn-default dropdown-toggle dropdown-button" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			    Number of Questions
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			    <li><a href="#">5</a></li>
+			    <li><a href="#">10</a></li>
+			    <li><a href="#">15</a></li>
+			  </ul>
+			</div>
+			
+			<div class="dropdown col-lg-6">
+			  <button class="btn btn-default dropdown-toggle dropdown-button" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			    Level of Difficulty
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			    <li><a href="#">Medium</a></li>
+			    <li><a href="#">Hard</a></li>
+			  </ul>
+			</div>
+		<div class="button-div">
+			<input class="btn trivia-button col-lg-12" id="trivia_button" type="submit" value="Get Trivia">
+		</div>
+  
+		<div id="is_answer_correct">Your guess is...</div>
+		<div id="score">Your Score: 0<br>Yoda's Score: 0</div>
+		<div id="question_text">After clicking Get Trivia, click Next Question to start</div>
+
+		<form>
+			<div class="answer-div col-lg-6">
+				<input class="btn trivia-button answer-button col-lg-12" id="true_button" type="submit" value="True">
+			</div>
+			<div class="answer-div col-lg-6">
+			<input class="btn trivia-button col-lg-12" id="false_button" type="submit" value="False">
+			</div>
+		</form>
+		<!-- <input id="next_question" type="submit" value="Next Question"> 
+ 		<form>Questions:<select id="amount" name="amount">
+			<option value=5>5</option>
+			<option value=10>10</option>
+			<option value=15>15</option>
+			</select>
+		
+		Difficulty: <select id="difficulty" name="difficulty">
+			<option value=easy>Medium</option>
+			<option value=medium>Hard</option>
+		</select> -->
+		</div>
+	<div class = "col-lg-6"> 
+		<img id="yoda_picture" src="images/yoda.png">
+	</div>
+
+
+
+<script>
+		var amount;
+		var difficulty;
+		$(document).ready(function () {
+		  	$('.dropdown-toggle').dropdown();
+		    });
+		$(document.body).on('click', '.dropdown-menu li a', function (e) {
+		    amount = $(this).text(); 
+		});
+
+		console.log("At the beginning of the script");
+		$(document).ready(function(){
+			var questions = [];
+			var answers = [];
+			$("#trivia_button").click(function(e){
+				e.preventDefault();
+				var url = "https://www.opentdb.com/api.php?amount=" + amount + "&category=9&difficulty=" + difficulty + "&type=boolean";
+				console.log(url);
+				$.getJSON(url, function(data) {
+					 $.each(data.results, function(i,item){
+					 	var question = item.question;
+					 	var answer = item.correct_answer;
+					 	questions.push(question);
+					 	answers.push(answer);
+					 	console.log(data.results);	
+					 });
+				});
+				//make a function that uses the 
+			});
+
+			/*make a fucntion 
+			function yoda-ize(var question) {
+    			//https://yoda.p.mashape.com/yoda
+    			/*https://yoda.p.mashape.com/yoda
+    			HttpResponse<String> response = Unirest.get("https://yoda.p.mashape.com/yoda?sentence=You+will+learn+how+to+speak+like+me+someday.++Oh+wait.")
+    			// These code snippets use an open-source library. http://unirest.io/java
+				HttpResponse<String> response = Unirest.get("https://yoda.p.mashape.com/yoda?sentence=" + question+ ")"
+				.header("X-Mashape-Key", "<required>")
+				.header("Accept", "text/plain")
+				.asString();
+
+			}*/
+			
+
+
+			var yourScore = 0;
+			var yodaScore = 0;
+			var counter = 0;
+			$("#next_question").click(function(e){
+				e.preventDefault();
+				if(counter != $("#amount").val()){
+					$("#is_answer_correct").text("Your guess is...");
+					$("#question_text").html(questions[counter]);
+				}
+			});
+			$("#true_button").click(function(e){
+				e.preventDefault();
+				if(counter != $("#amount").val()){
+					console.log(answers[counter]);
+					if(answers[counter] == "True"){
+						$("#is_answer_correct").text("Correct!");
+						yourScore++;
+					}
+					else{
+						$("#is_answer_correct").text("Incorrect");
+						yodaScore++;
+					}
+					counter++;
+					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
+					console.log("counter " +counter+" amount" +$("#amount").val());
+					if(counter == $("#amount").val()){
+						if(yourScore > yodaScore){
+							$("#is_answer_correct").text("Powerful you have become, the dark side I sense in you.");
+						}
+					}
+				}
+			});
+			$("#false_button").click(function(e){
+				e.preventDefault();
+				if(counter != $("#amount").val()){
+					if(answers[counter] == "False"){
+						$("#is_answer_correct").text("Correct!");
+						yourScore++;
+					}
+					else{
+						$("#is_answer_correct").text("Incorrect");
+						yodaScore++;
+					}
+					counter++;
+					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
+					console.log("counter " +counter+" amount" +$("#amount").val());				
+					if(counter == $("#amount").val()){
+						if(yourScore > yodaScore){
+							$("#is_answer_correct").text("If you end your training now — if you choose the quick and easy path as Vader did — you will become an agent of evil.");
+						}
+					}
+				}
+			});
+		});
+	</script>
+
+
+</body>
+</html>
