@@ -13,21 +13,26 @@
 		<option value=5>5</option>
 		<option value=10>10</option>
 		<option value=15>15</option>
-		<option value=20>20</option>
 		</select>
 	Level of Difficulty: <select id="difficulty" name="difficulty">
-		<option value=easy>Easy</option>
-		<option value=medium>Medium</option>
-		<option value=hard>Hard</option>
+		<option value=easy>Medium</option>
+		<option value=medium>Hard</option>
 	</select>
 	<input id="trivia_button" type="submit" value="Get Trivia">
 	</form>
-	<div id="question_text">Your Trivia</div>
-	<input id="next_question" type="submit" value="Next">
+	<div id="is_answer_correct">Your guess is...</div>
+	<div id="score">Your Score: 0<br>Yoda's Score: 0</div>
+	<div id="question_text">After clicking Get Trivia, click Next Question to start</div>
+	<form>
+		<input id="true_button" type="submit" value="True">
+		<input id="false_button" type="submit" value="False">
+	</form>
+	<input id="next_question" type="submit" value="Next Question">
 	<script>
 		console.log("At the beginning of the script");
 		$(document).ready(function(){
 			var questions = [];
+			var answers = [];
 			$("#trivia_button").click(function(e){
 				e.preventDefault();
 				var url = "https://www.opentdb.com/api.php?amount=" + $("#amount").val() + "&category=9&difficulty=" + $("#difficulty").val() + "&type=boolean";
@@ -35,17 +40,65 @@
 				$.getJSON(url, function(data) {
 					 $.each(data.results, function(i,item){
 					 	var question = item.question;
-					 	console.log(question);
+					 	var answer = item.correct_answer;
 					 	questions.push(question);
+					 	answers.push(answer);
 					 	console.log(data.results);	
 					 });
 				});
 			});
+			var yourScore = 0;
+			var yodaScore = 0;
 			var counter = 0;
 			$("#next_question").click(function(e){
 				e.preventDefault();
-				$("#question_text").text(questions[counter]);
-				counter++;
+				if(counter != $("#amount").val()){
+					$("#is_answer_correct").text("Your guess is...");
+					$("#question_text").html(questions[counter]);
+				}
+			});
+			$("#true_button").click(function(e){
+				e.preventDefault();
+				if(counter != $("#amount").val()){
+					console.log(answers[counter]);
+					if(answers[counter] == "True"){
+						$("#is_answer_correct").text("Correct!");
+						yourScore++;
+					}
+					else{
+						$("#is_answer_correct").text("Incorrect");
+						yodaScore++;
+					}
+					counter++;
+					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
+					console.log("counter " +counter+" amount" +$("#amount").val());
+					if(counter == $("#amount").val()){
+						if(yourScore > yodaScore){
+							$("#is_answer_correct").text("Powerful you have become, the dark side I sense in you.");
+						}
+					}
+				}
+			});
+			$("#false_button").click(function(e){
+				e.preventDefault();
+				if(counter != $("#amount").val()){
+					if(answers[counter] == "False"){
+						$("#is_answer_correct").text("Correct!");
+						yourScore++;
+					}
+					else{
+						$("#is_answer_correct").text("Incorrect");
+						yodaScore++;
+					}
+					counter++;
+					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
+					console.log("counter " +counter+" amount" +$("#amount").val());				
+					if(counter == $("#amount").val()){
+						if(yourScore > yodaScore){
+							$("#is_answer_correct").text("If you end your training now — if you choose the quick and easy path as Vader did — you will become an agent of evil.");
+						}
+					}
+				}
 			});
 		});
 	</script>
