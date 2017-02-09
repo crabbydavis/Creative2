@@ -54,6 +54,8 @@
 		<div id="score">Your Score: 0<br>Yoda's Score: 0</div>
 		<div id="question_text">After clicking Get Trivia, click Next Question to start</div>
 
+		
+
 		<form>
 			<div class="answer-div col-lg-6">
 				<input class="btn trivia-button answer-button col-lg-12" id="true_button" type="submit" value="True">
@@ -62,8 +64,8 @@
 			<input class="btn trivia-button col-lg-12" id="false_button" type="submit" value="False">
 			</div>
 		</form>
-		<!-- <input id="next_question" type="submit" value="Next Question"> 
- 		<form>Questions:<select id="amount" name="amount">
+		<input class="btn trivia-button col-lg-12" id="next_question" type="submit" value="Next Question"> 
+ 		<!-- <form>Questions:<select id="amount" name="amount">
 			<option value=5>5</option>
 			<option value=10>10</option>
 			<option value=15>15</option>
@@ -128,6 +130,8 @@
 			var yourScore = 0;
 			var yodaScore = 0;
 			var counter = 0;
+
+
 			$("#next_question").click(function(e){
 				e.preventDefault();
 				if(counter != $("#amount").val()){
