@@ -50,9 +50,9 @@
 			<input class="btn trivia-button col-lg-12" id="trivia_button" type="submit" value="Get Trivia">
 		</div>
   
-		<div id="is_answer_correct">Your guess is...</div>
-		<div id="score">Your Score: 0<br>Yoda's Score: 0</div>
-		<div id="question_text">After clicking Get Trivia, click Next Question to start</div>
+		<div id="is_answer_correct"><br>Your guess is...</div>
+		<div id="score">Your Score: 0<br>Yoda's Score: 0<br></div>
+		<!--<div id="question_text">After clicking Get Trivia, click Next Question to start</div>-->
 
 		
 
@@ -64,7 +64,7 @@
 			<input class="btn trivia-button col-lg-12" id="false_button" type="submit" value="False">
 			</div>
 		</form>
-		<input class="btn trivia-button col-lg-12" id="next_question" type="submit" value="Next Question"> 
+		<!--<input class="btn trivia-button col-lg-12" id="next_question" type="submit" value="Next Question">--> 
  		<!-- <form>Questions:<select id="amount" name="amount">
 			<option value=5>5</option>
 			<option value=10>10</option>
@@ -98,24 +98,32 @@
 		$(document).ready(function(){
 			var questions = [];
 			var answers = [];
+			var num = 101;
 			$("#trivia_button").click(function(e){
 				e.preventDefault();
 				//console.log("amount is " + amount);
 				//console.log("difficulty is " + difficulty);
-				var url = "http://catfacts-api.appspot.com/api/facts";
+				var url = "http://numbersapi.com/2";
 				console.log(url);
-				$.getJSON(url, function(data) {
-					 $.each(data.facts, function(i,item){
+				/*$.getJSON(url, function(data) {
+					 $.each(data, function(i,item){
 					 	//var question = item.question;
 					 	//var answer = item.correct_answer;
-					 	var facts = item;
-					 	$("#is_answer_correct").text(facts);
+					 	//var facts = item;
+					 	//$("#is_answer_correct").text(facts);
 					 	console.log(item);
+						console.log(data);
 					 	//questions.push(question);
 					 	//answers.push(answer);
 					 	//console.log(data.results);	
 					 });
+				});*/
+				$.get('http://numbersapi.com/' + num + '/trivia?notfound=floor&fragment', function(data) {
+    				var randomFact;
+				randomFact = (num * 2 - 151) + " is " + data;
+				$('#is_answer_correct').text(randomFact);
 				});
+				num++;
 				//make a function that uses the 
 			});
 
@@ -141,49 +149,55 @@
 
 			$("#next_question").click(function(e){
 				e.preventDefault();
-				if(counter != $("#amount").val()){
+				if(counter != 5){
 					$("#is_answer_correct").text("Your guess is...");
 					$("#question_text").html(questions[counter]);
 				}
 			});
 			$("#true_button").click(function(e){
 				e.preventDefault();
-				if(counter != $("#amount").val()){
+				if((yourScore + yodaScore) != 5){
 					console.log(answers[counter]);
-					if(answers[counter] == "True"){
+					/*if(answers[counter] == "True"){
 						$("#is_answer_correct").text("Correct!");
 						yourScore++;
 					}
-					else{
+					else{*/
 						$("#is_answer_correct").text("Incorrect");
 						yodaScore++;
-					}
+					//}
 					counter++;
 					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
 					console.log("counter " +counter+" amount" +$("#amount").val());
-					if(counter == $("#amount").val()){
+					if((yourScore + yodaScore) == 5){
 						if(yourScore > yodaScore){
 							$("#is_answer_correct").text("Powerful you have become, the dark side I sense in you.");
+						}
+						else{
+							$("#is_answer_correct").text("If you end your training now - if you choose the quick and easy path as Vader did - you will become an agent of evil.");
 						}
 					}
 				}
 			});
 			$("#false_button").click(function(e){
 				e.preventDefault();
-				if(counter != $("#amount").val()){
-					if(answers[counter] == "False"){
+				if((yourScore+yodaScore) != 5){
+					//if(answers[counter] == "False"){
 						$("#is_answer_correct").text("Correct!");
 						yourScore++;
-					}
+					/*}
 					else{
 						$("#is_answer_correct").text("Incorrect");
 						yodaScore++;
-					}
+					}*/
 					counter++;
-					$("#score").html("Your Score:"+yourScore+"<br>Yoda's Score:"+yodaScore);
+					$("#score").html("Your Score: "+yourScore+"<br>Yoda's Score: "+yodaScore);
 					console.log("counter " +counter+" amount" +$("#amount").val());				
-					if(counter == $("#amount").val()){
+					if((yourScore+yodaScore) == 5){
 						if(yourScore > yodaScore){
+							$("#is_answer_correct").text("Powerful you have become, the dark side I sense in you.");
+						}
+						else{
 							$("#is_answer_correct").text("If you end your training now — if you choose the quick and easy path as Vader did — you will become an agent of evil.");
 						}
 					}
