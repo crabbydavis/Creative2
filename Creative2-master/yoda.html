@@ -37,11 +37,11 @@
 			</div>
 			
 			<div class="dropdown col-lg-6">
-			  <button class="btn btn-default dropdown-toggle dropdown-button" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			  <button class="btn btn-default dropdown-toggle dropdown-button" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 			    Level of Difficulty
 			    <span class="caret"></span>
 			  </button>
-			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  <ul id="dificult" class="dropdown-menu" aria-labelledby="dropdownMenu2">
 			    <li><a href="#">Medium</a></li>
 			    <li><a href="#">Hard</a></li>
 			  </ul>
@@ -88,25 +88,32 @@
 		$(document).ready(function () {
 		  	$('.dropdown-toggle').dropdown();
 		    });
-		$(document.body).on('click', '.dropdown-menu li a', function (e) {
+		$(document.body).on('click', '#dropdownMenu1', function (e) {
 		    amount = $(this).text(); 
+		    console.log("amount is " + amount);
 		});
 
+		console.log("difficulty is " + difficulty);
 		console.log("At the beginning of the script");
 		$(document).ready(function(){
 			var questions = [];
 			var answers = [];
 			$("#trivia_button").click(function(e){
 				e.preventDefault();
-				var url = "https://www.opentdb.com/api.php?amount=" + amount + "&category=9&difficulty=" + difficulty + "&type=boolean";
+				//console.log("amount is " + amount);
+				//console.log("difficulty is " + difficulty);
+				var url = "http://catfacts-api.appspot.com/api/facts";
 				console.log(url);
 				$.getJSON(url, function(data) {
-					 $.each(data.results, function(i,item){
-					 	var question = item.question;
-					 	var answer = item.correct_answer;
-					 	questions.push(question);
-					 	answers.push(answer);
-					 	console.log(data.results);	
+					 $.each(data.facts, function(i,item){
+					 	//var question = item.question;
+					 	//var answer = item.correct_answer;
+					 	var facts = item;
+					 	$("#is_answer_correct").text(facts);
+					 	console.log(item);
+					 	//questions.push(question);
+					 	//answers.push(answer);
+					 	//console.log(data.results);	
 					 });
 				});
 				//make a function that uses the 
